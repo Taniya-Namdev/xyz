@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            background-image: url("https://res.cloudinary.com/imagist/image/fetch/q_auto,f_auto,c_scale,w_2624/https%3A%2F%2Ftodoist.com%2Fstatic%2Fproduct-ui%2Fbackgrounds%2Fwave-one-red.png");
+            font-family: cursive;
+
+        
+        }
+        
+        .container {
+           
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            color: brown;
+            margin: 10px;
+            box-sizing: border-box;
+        }
+        h1{
+            color: black;
+
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #8b4513;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff8dc; /* Cornsilk */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+        button {
+            background-color: #e1a070; /* SaddleBrown */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #a26730; /* Darker shade */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            color:rgb(121, 27, 27);
+        }
+        th {
+            background-color: #cfa689; /* SaddleBrown */
+            color: white;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            input, button {
+                width: 100%;
+                padding: 10px;
+            }
+            td {
+                display: block;
+                width: 100%;
+                text-align: right;
+                padding: 5px 0;
+            }
+            td::before {
+                content: attr(data-label);
+                float: left;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>To-Do List App For Demo...</h1>
+    <div class="container">
+        <h1>To-Do List </h1>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button onclick="addTask()">Add Task</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task No.</th>
+                    <th>Task Name</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="taskList"></tbody>
+        </table>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+    <div class="popup" id="popup">
+        <label for="statusSelect">Select Status:</label>
+        <select id="statusSelect">
+            <option value="To-Do">To-Do</option>
+            <option value="In-Progress">In-Progress</option>
+            <option value="Sending">Sending</option>
+            <option value="Updating">Updating</option>
+            <option value="Finish">Finish</option>
+        </select>
+        <br><br>
+        <button onclick="submitStatus()">Submit</button>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        let tasks = [];
+        let currentTaskIndex = null;
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                tasks.push({ name: taskText, status: 'To-Do' });
+                taskInput.value = '';
+                renderTasks();
+            }
+        }
+
+        function editTask(index) {
+            const newTaskName = prompt("Edit Task Name:");
+            if (newTaskName) {
+                tasks[index].name = newTaskName;
+                renderTasks();
+            }
+        }
+
+        function removeTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        function updateStatus(index) {
+            currentTaskIndex = index;
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            currentTaskIndex = null;
+        }
+
+        function submitStatus() {
+            const newStatus = document.getElementById('statusSelect').value;
+            if (currentTaskIndex !== null) {
+                tasks[currentTaskIndex].status = newStatus;
+                renderTasks();
+                closePopup();
+            }
+        }
+
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = tasks.map((task, index) => `
+                <tr>
+                    <td data-label="Task No.">${index + 1}</td>
+                    <td data-label="Task Name">${task.name}</td>
+                    <td data-label="Status">
+                        <button onclick="updateStatus(${index})">${task.status}</button>
+                    </td>
+                    <td data-label="Edit"><button onclick="editTask(${index})">Edit</button></td>
+                    <td data-label="Remove"><button onclick="removeTask(${index})">Remove</button></td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Your Order!</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+        }
+        .container {
+            background-color: #ffdd57;
+            margin: 10px;
+            min-height: calc(100vh - 20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .content {
+            background-color: #fff;
+            width: 70%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content img {
+            max-width: 100%;
+            height:50vh;
+        }
+        .message {
+            margin: 20px 0;
+        }
+        .guides {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .guide {
+            margin: 10px;
+            flex: 1 1 45%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .guide img {
+            margin-right: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th data-lebel=""></th>
+        </tr>
+    </table>
+    <div class="container">
+        <div class="content">
+            
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYBPxnHNe4D1WSaJUxHdoIkxHAohSd8sdt4W9hoaLyZ3MZ4vGlVtx1dA4Uo3T7sD7VGAQ&usqp=CAU">
+            <h1></h1>
+            <h1>Abhishek bloch</h1>
+            <div class="message">
+                <p>We appreciate your purchase and hope you enjoy your new bicycle!</p><hr>
+            </div>
+            <div class="guides">
+                <div class="guide">
+                    <img src="pdf-icon.png" alt="PDF Icon">
+                    <div>
+                        <p>Installation Guide</p>
+                        <button>Download</button>
+                    </div>
+                </div>
+                <div class="guide">
+                    <img src="service-kit-icon.png" alt="Service Kit Icon">
+                    <div>
+                        <p>Service Kit</p>
+                        <button>Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
